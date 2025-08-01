@@ -4,6 +4,11 @@ import dtale.app as dtale_app
 
 dtale_app.USE_COLAB = True
 
-# Creamos un DataFrame de ejemplo y lo mostramos con D-Tale
-df = pd.DataFrame([1, 2, 3, 4, 5], columns=['numeros'])
-dtale.show(df)
+# Leemos los datos desde el archivo CSV
+try:
+    df = pd.read_csv('datos.csv')
+    print("Archivo datos.csv cargado correctamente.")
+    # Mostramos el DataFrame con D-Tale
+    dtale.show(df)
+except FileNotFoundError:
+    print("Error: El archivo datos.csv no se encontró.")
