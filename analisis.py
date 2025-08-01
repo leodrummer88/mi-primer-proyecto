@@ -1,14 +1,26 @@
 import pandas as pd
-import dtale
-import dtale.app as dtale_app
+from ydata_profiling import ProfileReport
+import sys
 
-dtale_app.USE_COLAB = True
+def generar_reporte(archivo_csv, archivo_html):
+    """
+    Lee un archivo CSV y genera un reporte de perfil de datos en HTML.
+    """
+    try:
+        print(f"Cargando datos desde '{archivo_csv}'...")
+        df = pd.read_csv(archivo_csv)
+        print("Datos cargados. Generando reporte...")
+        
+        profile = ProfileReport(df, title=f"Reporte de Datos - {archivo_csv}")
+        
+        profile.to_file(archivo_html)
+        print(f"Reporte generado y guardado como '{archivo_html}'")
+        
+    except FileNotFoundError:
+        print(f"Error: El archivo '{archivo_csv}' no fue encontrado.")
+    except Exception as e:
+        print(f"Ocurrió un error: {e}")
 
-# Leemos los datos desde el archivo CSV
-try:
-    df = pd.read_csv('datos.csv')
-    print("Archivo datos.csv cargado correctamente.")
-    # Mostramos el DataFrame con D-Tale
-    dtale.show(df)
-except FileNotFoundError:
-    print("Error: El archivo datos.csv no se encontró.")
+if __name__ == "__main__":
+    # Nombre del archivo CSV de entrada y el archivo HTML de salida
+    generar_reporte('datos.csv', 'reporte_estadistico.html')
